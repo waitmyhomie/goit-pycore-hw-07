@@ -79,7 +79,7 @@ class Record:
     
     def add_birthday(self, birthday):
         try:
-            self.birthday = Birthday(birthday)
+            self.birthday = Birthday.validate_birthday(birthday)
         except ValueError as e:
             print(e)
 
@@ -104,6 +104,8 @@ if __name__ == "__main__":
     user_record = Record("John")
     user_record.add_phone("1234567890")
     user_record.add_phone("5555555555")
+    #pass a function to add birthday
+    user_record.add_birthday("01-01-1990")
 
   
     book.add_record(user_record)
