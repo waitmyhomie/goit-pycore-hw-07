@@ -116,15 +116,31 @@ class AddressBook(UserDict):
 def add_contact(args, book: AddressBook):
     if len(args) < 2:
         raise ValueError("Not enough arguments. Usage: add [name] [phone]")
-    name, phone, *_ = args
+    name, phone, *rest = args
+    birthday = rest[0] if rest else None
+
+    if birthday:
+        try:
+            Birthday(birthday)
+        except ValueError as e:
+            return f'Failed to add contact. {e}'
+    
     record = book.find(name)
     message = "Contact updated."
+
     if record is None:
         record = Record(name)
         book.add_record(record)
         message = "Contact added."
+        
+    if birthday:
+        try:
+            record.add_birthday(birthday)
+        except ValueError as e:
+            return f'Failed to add contact. {e}'
     if phone:
         record.add_phone(phone)
+
     return message
 
 @input_error
