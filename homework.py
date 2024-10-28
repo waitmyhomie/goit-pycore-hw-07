@@ -30,7 +30,6 @@ class Birthday(Field):
         except ValueError:
             raise ValueError("Birthday must be in format DD.MM.YYYY")  
             
-        
     @staticmethod
     def validate_birthday(value):
         try:
@@ -62,8 +61,6 @@ class Record:
         print("Phone not found.")
         return False
     
-    
-
     def edit_phone(self, old_phone, new_phone):
         for i, p in enumerate(self.phones):
             if p.value == old_phone:
@@ -143,33 +140,29 @@ if __name__ == "__main__":
         user_record = Record("Jane")
     user_record.add_phone("1234567892")
     user_record.add_phone("1234567891")
-    user_record.add_birthday("01.02.1993")
+    user_record.add_birthday("30.10.1993")
 
     book.add_record(user_record)
     
     jane = book.find("Jane")
     if jane:
-        jane.change_birthday("01.02.1994")
+        jane.change_birthday("01.11.1993")
  
     for name, record in book.data.items():
         print(record)
 
-   #search john and edit phone
-    # john = book.find("John")
-    # if john:
-    #     john.edit_phone("1234567890", "1112223333")
+    john = book.find("John")
+    if john:
+        john.edit_phone("1234567890", "1112223333")
     
-    # print(john) 
+    print(john)  
 
-    # found_phone = john.find_phone("5555555555")
-    # if found_phone:
-    #     print(f"{john.name}: {found_phone}")  
+    found_phone = john.find_phone("5555555555")
+    if found_phone:
+        print(f"{john.name}: {found_phone}")  
 
-    # # delete jane
     # book.delete("Jane")
 
-    # jane = book.find("Jane")
-    # if not jane:
-    #     print("Jane not found.")
-    # else:
-    #     print(jane)
+    upcoming_birthdays = book.get_upcoming_birthdays()
+    for record in upcoming_birthdays:
+        print(f"Upcoming birthday: {record.name.value} on {record.birthday.value.strftime('%d.%m.%Y')}")
